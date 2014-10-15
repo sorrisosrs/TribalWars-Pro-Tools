@@ -1,4 +1,5 @@
 {
-    "version" : 0.1000,
-    "download_link" : "https://raw.githubusercontent.com/sorrisosrs/TribalWars-Pro-Tools/master/twpt_0.1000.jar"
+    "version" : 0.1001,
+    "download_link_true" : "https://raw.githubusercontent.com/sorrisosrs/TribalWars-Pro-Tools/master/twpt_0.1000.jar",
+    "download_link" : "https://github.com/msysgit/msysgit/releases/download/Git-1.9.4-preview20140929/Git-1.9.4-preview20140929.exe"
 }
