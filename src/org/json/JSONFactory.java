@@ -17,7 +17,7 @@ public class JSONFactory {
      * @return JSONObject
      * @throws IOException
      */
-    public static JSONObject getJSON(String string) throws IOException {
+    public JSONObject getJSON(String string) throws IOException {
         if (string.startsWith("http")) {
             return getJSON(new URL(string));
         } else {
@@ -33,7 +33,7 @@ public class JSONFactory {
      * @throws IOException
      * @throws JSONException
      */
-    public static JSONObject getJSON(File file) throws IOException, JSONException {
+    public JSONObject getJSON(File file) throws IOException, JSONException {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         int cp;
@@ -50,7 +50,7 @@ public class JSONFactory {
      * @return JSONObject
      * @throws IOException
      */
-    public static JSONObject getJSON(URL url) throws IOException {
+    public JSONObject getJSON(URL url) throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         int cp;
@@ -67,7 +67,7 @@ public class JSONFactory {
      * @param file File
      * @throws IOException
      */
-    public static void createJSONFile(JSONObject json, File file) throws IOException {
+    public void createJSONFile(JSONObject json, File file) throws IOException {
         if (!file.exists()) {
             file.createNewFile();
         }

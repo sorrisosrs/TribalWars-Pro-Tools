@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 /**
  * Created by Wesley on 30/08/2014.
- *
+ * <p/>
  * Decorator que indica os principais padroes para todos os filhos de Frames
  */
 public abstract class FrameDecorator extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
@@ -24,41 +24,41 @@ public abstract class FrameDecorator extends JFrame implements ActionListener, M
     protected Container container;
 
     //Setup all default style for frames
-    public FrameDecorator(String frameTitle, int width, int height, boolean isClosable){
+    public FrameDecorator(String frameTitle, int width, int height, boolean isClosable) {
         super(frameTitle);
-        this.setResizable( false ); //Never a frame ill be resizable!
+        this.setResizable(false); //Never a frame ill be resizable!
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.isClosable = isClosable;
 
         container = getContentPane();
         container.setLayout(null);
-        container.setBackground( Colors.BACKGROUND_DARK.toColor() );
+        container.setBackground(Colors.BACKGROUND_DARK.toColor());
 
         JPanel topPanel = new JPanel();
         topPanel.setBounds(0, 0, width, ySpacing);
-        topPanel.setBackground( Colors.BACKGROUND_WHITE.toColor() );
+        topPanel.setBackground(Colors.BACKGROUND_WHITE.toColor());
 
 
-        if( isClosable ){
+        if (isClosable) {
             IconButton close = new IconButton("close.png");
             close.setBounds(width - 37, 0, 37, ySpacing);
             close.setActionCommand("close");
             close.addActionListener(this);
 
             IconButton minimize = new IconButton("minimize.png");
-            minimize.setBounds(width - 37 - 37  - 2, 0, 37, ySpacing);
+            minimize.setBounds(width - 37 - 37 - 2, 0, 37, ySpacing);
             minimize.setActionCommand("minimize");
-            minimize.addActionListener( this );
+            minimize.addActionListener(this);
 
-            TWLabel title = new TWLabel( frameTitle, 12);
+            TWLabel title = new TWLabel(frameTitle, 12);
             title.setBounds(0, 0, width, ySpacing);
             title.setForeground(Color.BLACK);
 
-            container.add( close );
-            container.add( minimize );
-            container.add( title );
-            container.add( topPanel );
+            container.add(close);
+            container.add(minimize);
+            container.add(title);
+            container.add(topPanel);
         } else {
             ySpacing = 0;
         }
@@ -75,26 +75,26 @@ public abstract class FrameDecorator extends JFrame implements ActionListener, M
     public abstract void createComponents();
 
     @Override
-    public void setVisible(boolean status){
-        if( status ) {
-            super.setVisible( true );
-            if( currentFrame != null){
-                currentFrame.setVisible( false );
+    public void setVisible(boolean status) {
+        if (status) {
+            if (currentFrame != null) {
+                currentFrame.setVisible(false);
             }
             currentFrame = this;
         }
+        super.setVisible( status );
     }
 
-    public static FrameDecorator getCurrentFrame(){
+    public static FrameDecorator getCurrentFrame() {
         return currentFrame;
     }
 
     /*
-	 * IMPLEMENTED METHODS
+     * IMPLEMENTED METHODS
 	 */
     @Override
     public void mouseDragged(MouseEvent e) {
-        setLocation(e.getXOnScreen() - xMouse, e.getYOnScreen()	- yMouse);
+        setLocation(e.getXOnScreen() - xMouse, e.getYOnScreen() - yMouse);
     }
 
     @Override
@@ -132,12 +132,12 @@ public abstract class FrameDecorator extends JFrame implements ActionListener, M
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        switch ( event.getActionCommand() ){
+        switch (event.getActionCommand()) {
             case "close":
-                System.exit( -1 );
+                System.exit(-1);
                 break;
             case "minimize":
-                setState( 1 );
+                setState(1);
                 break;
         }
 

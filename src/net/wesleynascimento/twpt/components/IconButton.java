@@ -11,7 +11,13 @@ public class IconButton extends TransparentButton  {
 
     public IconButton(String iconPath){
         super();
-        this.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage(IconButton.class.getResource( "/resources/" +iconPath))));
+        try {
+            Image image = Toolkit.getDefaultToolkit().getImage( getClass().getResource("/resources/" + iconPath) );
+            ImageIcon icon = new ImageIcon( image );
+            this.setIcon(icon);
+        } catch(Exception e){
+            System.out.println( e.getMessage() );
+        }
         setTransparency(0.7F);
         setHoverTransparency(1.0F);
         setBorder(BorderFactory.createEmptyBorder());
