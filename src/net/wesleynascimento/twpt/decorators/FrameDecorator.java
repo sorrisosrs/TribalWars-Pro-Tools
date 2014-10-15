@@ -33,7 +33,12 @@ public abstract class FrameDecorator extends JFrame implements ActionListener, M
 
         container = getContentPane();
         container.setLayout(null);
-        container.setBackground( Colors.BACKGROUND_LIGHT.toColor() );
+        container.setBackground( Colors.BACKGROUND_DARK.toColor() );
+
+        JPanel topPanel = new JPanel();
+        topPanel.setBounds(0, 0, width, ySpacing);
+        topPanel.setBackground( Colors.BACKGROUND_WHITE.toColor() );
+
 
         if( isClosable ){
             IconButton close = new IconButton("close.png");
@@ -48,10 +53,12 @@ public abstract class FrameDecorator extends JFrame implements ActionListener, M
 
             TWLabel title = new TWLabel( frameTitle, 12);
             title.setBounds(0, 0, width, ySpacing);
+            title.setForeground(Color.BLACK);
 
             container.add( close );
             container.add( minimize );
             container.add( title );
+            container.add( topPanel );
         } else {
             ySpacing = 0;
         }

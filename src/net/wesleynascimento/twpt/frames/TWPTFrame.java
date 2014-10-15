@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 public class TWPTFrame extends FrameDecorator {
 
     public TWPTFrame(){
-        super("Tribal Wars Pro Tools", 1024, 768, true);
+        super("Tribal Wars Pro Tools", 768, 480, true);
     }
 
     @Override

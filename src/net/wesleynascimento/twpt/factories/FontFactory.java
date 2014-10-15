@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class FontFactory {
 
-    public String DEFAULT_FONT = "Helvetica";
+    public String DEFAULT_FONT = "Helvetica,Arial";
 
     public Font getFont(String fontName){
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

@@ -6,8 +6,9 @@ import java.awt.*;
  * Created by Wesley on 31/08/2014.
  */
 public enum Colors {
-    BACKGROUND_LIGHT(new Color(251, 235, 201)),
-    BACKGROUND_DARK(new Color(196, 166, 106)),
+    BACKGROUND_LIGHT( hex2Color("#f4e4bc")),
+    BACKGROUND_WHITE( hex2Color("#F6EDD7")),
+    BACKGROUND_DARK( hex2Color("#e3d5b3")),
     PROGRESSBAR(new Color(146, 194, 0)),
     PROGRESSBAR_BORDER( hex2Color("#dfbc79") ),
     DEFAULT_FOREGROUND( hex2Color("#603000") ),

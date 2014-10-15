@@ -50,7 +50,6 @@ public class TWButton extends JButton implements MouseListener {
     }
 
     public TWButton(String label) {
-
         this();
         setText(label);
 
@@ -95,6 +94,7 @@ public class TWButton extends JButton implements MouseListener {
         g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 5, 5);
 
         //Desenha a borda do botão
+
         if (!isEnabled()) {
             g2d.setColor(borderUnable);
         } else {
@@ -103,10 +103,12 @@ public class TWButton extends JButton implements MouseListener {
         g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 5, 5);
 
         //Se o mouse estiver em cima
+        /*
         if (isOver || isDefaultButton()) {
             g2d.setColor(borderUnable);
             g2d.drawRoundRect(1, 1, getWidth() - 3, getHeight() - 3, 5, 5);
         }
+        */
 
         //Escreve o texto centralizado
         if(!isEnabled()) {

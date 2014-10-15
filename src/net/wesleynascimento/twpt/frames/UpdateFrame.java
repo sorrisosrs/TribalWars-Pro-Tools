@@ -16,8 +16,8 @@ import java.io.IOException;
  */
 public class UpdateFrame extends FrameDecorator implements FileDownloaderDelegate {
 
-    private final double currentVersion = 0.1000;
-    private final String packagePath = "";
+    private final static double currentVersion = 0.1000;
+    private final static String  packagePath = ""; //Remote Package.json file, contains information about app version and update link
 
     private ProgressBar progressBar;
     private TWLabel progressLabel;
@@ -39,7 +39,15 @@ public class UpdateFrame extends FrameDecorator implements FileDownloaderDelegat
         container.add( progressLabel );
     }
     public void start(){
+        //Carrega as configurações,
 
+        //Se configurado pra buscar atualização, então busca.
+
+        //Se tiver atualização, atualiza.
+
+        //Se configurado para abrir o WorldSelectionFrame, então abre!
+
+        //Done
     }
 
     public void loadLocalFiles(){

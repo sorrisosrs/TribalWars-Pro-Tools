@@ -4,6 +4,7 @@ import net.wesleynascimento.twpt.enums.Colors;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 /**
@@ -27,6 +28,12 @@ public class TWButtonSimple extends TWButton {
     public TWButtonSimple(String label) {
         this();
         setText(label);
+    }
+
+    public TWButtonSimple(String label, ActionListener al, String command) {
+        this(label);
+        addActionListener( al );
+        setActionCommand( command );
     }
 
     public TWButtonSimple(Icon icon) {
