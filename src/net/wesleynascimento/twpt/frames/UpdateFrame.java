@@ -8,6 +8,7 @@ import net.wesleynascimento.twpt.components.ProgressBar;
 import net.wesleynascimento.twpt.components.TWLabel;
 import org.json.JSONObject;
 
+import javax.security.auth.login.Configuration;
 import java.awt.*;
 import java.io.IOException;
 
@@ -17,10 +18,12 @@ import java.io.IOException;
 public class UpdateFrame extends FrameDecorator implements FileDownloaderDelegate {
 
     private final static double currentVersion = 0.1000;
-    private final static String  packagePath = ""; //Remote Package.json file, contains information about app version and update link
+    private final static String packagePath = "https://raw.githubusercontent.com/sorrisosrs/TribalWars-Pro-Tools/master/package.json"; //Remote Package.json file, contains information about app version and update link
 
     private ProgressBar progressBar;
     private TWLabel progressLabel;
+
+    private JSONObject remote; //Remote update Ffile
 
     public UpdateFrame(){
         super("Atualizador", 300, 100, false);
@@ -39,13 +42,15 @@ public class UpdateFrame extends FrameDecorator implements FileDownloaderDelegat
         container.add( progressLabel );
     }
     public void start(){
-        //Carrega as configurações,
+        //Carrega as configuraÃ§Ãµes,
 
-        //Se configurado pra buscar atualização, então busca.
+        //Se configurado pra buscar atualizaÃ§Ã£o, entÃ£o busca.
+        //Se tiver atualizaÃ§Ã£o, atualiza.
+        if ( checkForAppUpdates() ){
+            doUpdate();
+        }
 
-        //Se tiver atualização, atualiza.
-
-        //Se configurado para abrir o WorldSelectionFrame, então abre!
+        //Se configurado para abrir o WorldSelectionFrame, entï¿½o abre!
 
         //Done
     }
@@ -54,18 +59,28 @@ public class UpdateFrame extends FrameDecorator implements FileDownloaderDelegat
         //Cria a instancia static do Configuration e do WorldManager
     }
 
-    public void loadRemoteFile(){
-        try {
-            JSONObject packageFile = JSONFactory.getJSON(packagePath);
-        } catch (IOException ex){
-            //Case do not find remote package
+    public JSONObject loadRemoteFile() throws IOException {
+        return JSONFactory.getJSON(packagePath);
+    }
 
-            return;
+    public boolean checkForAppUpdates(){
+        try {
+            remote = loadRemoteFile();
+        } catch (IOException e) {
+            System.out.println("Can't find or open the package file.");
+            return false;
+        }
+
+        if( remote.getDouble("version") > currentVersion ){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    public void checkForAppUpdates(){
-
+    public void doUpdate(){
+        String downloadPath = remote.getString("download_link");
     }
 
     public void checkForModulesUpdates(){
