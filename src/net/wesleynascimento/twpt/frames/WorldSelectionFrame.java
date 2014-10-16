@@ -1,16 +1,25 @@
 package net.wesleynascimento.twpt.frames;
 
+import net.wesleynascimento.twpt.beans.World;
 import net.wesleynascimento.twpt.components.*;
 import net.wesleynascimento.twpt.decorators.FrameDecorator;
+import net.wesleynascimento.twpt.factories.WorldFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by Wesley on 30/08/2014.
  */
 public class WorldSelectionFrame extends FrameDecorator {
+
+    private World inCacheWorld;
 
     public WorldSelectionFrame(){
         super("Seleção de Mundo", 300, 175, true);
@@ -21,7 +30,6 @@ public class WorldSelectionFrame extends FrameDecorator {
     private TWButtonSimple testButton;
     private TWButtonSimple saveButton;
     private TWButton startButton;
-    private ProgressBar progressBar;
 
     @Override
     public void createComponents() {
@@ -41,10 +49,6 @@ public class WorldSelectionFrame extends FrameDecorator {
         serverName.setPlaceholder("tribalwars.com.br");
         serverName.setBounds( 40 + 20, ySpacing + 2 + 30, getWidth() - 70, 30);
 
-        progressBar = new ProgressBar();
-        progressBar.setBounds( 10, ySpacing + 62 + 10, getWidth() - 110 - 30, 30);
-        progressBar.setVisible( false );
-
         testButton = new TWButtonSimple("Testar Conexao.", this, "test_server_connection");
         testButton.setBounds(getWidth() - 110 - 10, ySpacing + 62 + 10, 110, 30);
 
@@ -60,7 +64,6 @@ public class WorldSelectionFrame extends FrameDecorator {
         container.add( worldName );
         container.add(label2);
         container.add( serverName );
-        container.add( progressBar );
         container.add(testButton);
         container.add(saveButton);
         container.add( startButton );
@@ -91,19 +94,35 @@ public class WorldSelectionFrame extends FrameDecorator {
             JOptionPane.showMessageDialog(this, "Por favor, preencha os campos de Mundo e Servidor!", "Erro!", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        progressBar.setVisible( true );
         testButton.setEnabled( false );
         worldName.setEnabled( false );
         serverName.setEnabled( false );
         startButton.setEnabled( false );
         saveButton.setEnabled( false );
-        progressBar.changeProgress(0);
 
+        WorldFactory factory = new WorldFactory();
+        try {
+            URL url = factory.getWorldXmlURL( worldName.getText(), serverName.getText());
 
+            JSONObject json = factory.getJSONFromXML( url );
+            inCacheWorld = factory.getWorldFromJSON( json );
+            inCacheWorld.setName( worldName.getText().toUpperCase() );
+
+            System.out.println( inCacheWorld.toString() );
+
+        } catch (MalformedURLException | JSONException e) {
+            JOptionPane.showMessageDialog(this, "Não foi possivel acessar este mundo ou servidor.\n"+
+                    "Certifique-se de ter inserido corretamente as informações e estar conectado a internet.", "Erro!"
+                    , JOptionPane.ERROR_MESSAGE);
+            failCleanUp();
+        } catch (IOException e) {
+            failCleanUp();
+        }
+
+        successCleanUp();
     }
 
     public void failCleanUp(){
-        progressBar.setVisible( false );
         testButton.setEnabled( true );
         worldName.setEnabled( true );
         serverName.setEnabled( true );
@@ -112,7 +131,6 @@ public class WorldSelectionFrame extends FrameDecorator {
     }
 
     public void successCleanUp(){
-        progressBar.setVisible( false );
         testButton.setEnabled( true );
         worldName.setEnabled( true );
         serverName.setEnabled( true );
