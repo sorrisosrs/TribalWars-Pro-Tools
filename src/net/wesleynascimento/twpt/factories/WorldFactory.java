@@ -2,10 +2,15 @@ package net.wesleynascimento.twpt.factories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.stanfy.gsonxml.GsonXml;
+import com.stanfy.gsonxml.GsonXmlBuilder;
+import com.stanfy.gsonxml.XmlParserCreator;
 import net.wesleynascimento.twpt.beans.World;
 import org.json.JSONException;
 import org.json.JSONML;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -26,6 +31,13 @@ import java.net.URL;
  */
 public class WorldFactory {
 
+    /**
+     * Return the World config URL
+     * @param worldName
+     * @param server
+     * @return
+     * @throws MalformedURLException
+     */
     public URL getWorldXmlURL(String worldName, String server) throws MalformedURLException {
         StringBuilder builder = new StringBuilder();
         builder.append("http://").append( worldName ).append(".").append(server).append("/interface.php?func=get_config");
@@ -34,23 +46,24 @@ public class WorldFactory {
     }
 
     /**
-     * Convert a world object to JSONObject
-     * @param world
+     * Return the units XML url
+     * @param worldName
+     * @param server
      * @return
+     * @throws MalformedURLException
      */
-    public JSONObject getWorldJSON( World world ){
-        Field fields[] = world.getClass().getDeclaredFields();
-        JSONObject json = new JSONObject();
-        try {
-            for( Field field : fields){
-                    json.put( field.getName(), field.get( world ));
-            }
-        } catch (IllegalAccessException e) {
-            //Do nothing, because GSON will complate this field will a default type value
-        }
-        return json;
+    public URL getUnitsXmlURL(String worldName, String server)throws MalformedURLException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("http://").append( worldName ).append(".").append(server).append("/interface.php?func=get_unit_info");
+
+        return new URL( builder.toString() );
     }
 
+    /**
+     * Convert a JSON String to World JavaBean
+     * @param json
+     * @return
+     */
     public World getWorldFromJSON(JSONObject json){
         Gson gson = new GsonBuilder().create();
 
@@ -85,13 +98,29 @@ public class WorldFactory {
     }
 
     /**
-     * Convert a remote XML to world object
+     * Convert a remote XML direct to a World object
      * @param url
      * @return
      */
-    public World getWorldFromXML(URL url){
+    public World getWorldFromXML(URL url) throws IOException{
+        XmlParserCreator parserCreator = new XmlParserCreator() {
+            @Override
+            public XmlPullParser createParser() {
+                try {
+                    final XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
+                    parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
+                    return parser;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
 
+        GsonXml gsonXml = new GsonXmlBuilder()
+                .setXmlParserCreator(parserCreator)
+                .create();
 
-        return null;
+        String xmlString = readRemoteBytes( url );
+        return gsonXml.fromXml( xmlString, World.class);
     }
 }

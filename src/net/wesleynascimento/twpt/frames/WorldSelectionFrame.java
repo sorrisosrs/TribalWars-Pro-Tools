@@ -104,11 +104,10 @@ public class WorldSelectionFrame extends FrameDecorator {
         try {
             URL url = factory.getWorldXmlURL( worldName.getText(), serverName.getText());
 
-            JSONObject json = factory.getJSONFromXML( url );
-            inCacheWorld = factory.getWorldFromJSON( json );
+            inCacheWorld = factory.getWorldFromXML( url );
             inCacheWorld.setName( worldName.getText().toUpperCase() );
 
-            System.out.println( inCacheWorld.toString() );
+            System.out.println( inCacheWorld );
 
         } catch (MalformedURLException | JSONException e) {
             JOptionPane.showMessageDialog(this, "Não foi possivel acessar este mundo ou servidor.\n"+

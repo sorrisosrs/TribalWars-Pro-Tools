@@ -8,6 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="com.google.code.gson:gson:2.3" level="project" />
+    <orderEntry type="library" name="com.stanfy:gson-xml-java:0.1.7" level="project" />
   </component>
 </module>
 

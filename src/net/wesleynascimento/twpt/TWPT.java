@@ -23,6 +23,5 @@ public class TWPT {
         UpdateFrame frame = new UpdateFrame();
         frame.setVisible(true);
         frame.start();
-
     }
 }
